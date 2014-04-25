@@ -218,17 +218,17 @@ results = {}
 
 #Old test results: best anlges: 313.7 and 44.2
 #good new ones: 54-55:35-34
-for test1 in [49]:#arange(48, 52, .1):
-    for test in [36]:#arange(28, 32, .1):
+for test1 in [45]:#arange(48, 52, .1):
+    for test in [45]:#arange(28, 32, .1):
         PROJ_ANGLE = .6057697
-        PROJ_ORIGIN = (1.75,3.5)
+        PROJ_ORIGIN = (4-1.75,3)
         pane = MirrorDraw(limits=(14,14))
         pane.SetTitle(str(test1)+'/'+str(test))
         box = array([(0,0,   0,12),
                       (0,12, 4,12),
-                      (4,12, 4,6),
-                      (4, 6, 13,6),
-                      (13,6, 13,0),
+                      (4,12, 4,4.5),
+                      (4, 4.5, 13,4.5),
+                      (13,4.5, 13,0),
                       (13,0, 0,0)])*pane.ppu
         pane.dc.DrawLineList(box)
 
@@ -238,9 +238,9 @@ for test1 in [49]:#arange(48, 52, .1):
         m1 = mirror_from_angle(m1_a, r=m1_h, off_y=abs(m1_h*math.sin(m1_a)))
         m2_h = 7.2
         m2_a = test*math.pi/180#44.2*math.pi/180
-        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-2.8)
+        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-3)
 
-        stopper = mirror_from_angle(0, 100, off_y=6)
+        stopper = mirror_from_angle(0, 100, off_y=4.5)
 
         #Initial light path
         path1 = [line_from_angle((3*math.pi/2)-PROJ_ANGLE/2, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
