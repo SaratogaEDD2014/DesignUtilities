@@ -217,30 +217,40 @@ results = {}
 
 
 #Old test results: best anlges: 313.7 and 44.2
-#good new ones: 54-55:35-34
-for test1 in [45]:#arange(48, 52, .1):
-    for test in [45]:#arange(28, 32, .1):
-        PROJ_ANGLE = .6057697
-        PROJ_ORIGIN = (4-1.75,3)
+#Mid test: proj = .6057697; test1=49; test=36
+for test1 in [42.9]:#arange(48, 52, .1):
+    for test in [47.1]:#arange(28, 32, .1):
+        PROJ_ANGLE = .4825976539
+        PROJ_ORIGIN = (4.5-2.125-.22, 4.5)
         pane = MirrorDraw(limits=(14,14))
         pane.SetTitle(str(test1)+'/'+str(test))
-        box = array([(0,0,   0,12),
-                      (0,12, 4,12),
-                      (4,12, 4,4.5),
-                      (4, 4.5, 13,4.5),
-                      (13,4.5, 13,0),
-                      (13,0, 0,0)])*pane.ppu
+        box = array([(0,0,    0,12),
+                      (0,12,  4.5,12),
+                      (4.5,12,4.5,6),
+                      (4.5,6, 13,6),
+                      (13,6,  13,0),
+                      (13,0,  0,0)])*pane.ppu
         pane.dc.DrawLineList(box)
+        mirr_limit = (PROJ_ORIGIN[0]-1, PROJ_ORIGIN[1]-1)
+        args = array([mirr_limit[0], mirr_limit[1], mirr_limit[0]+2, mirr_limit[1]])*pane.ppu
+        pane.dc.DrawLine(args[0], args[1], args[2], args[3]) #approximates position of lens of projector
 
-        m1_h = -5.5
         m1_a = test1
         m1_a = (180-m1_a)*math.pi/180 #360-46.3
-        m1 = mirror_from_angle(m1_a, r=m1_h, off_y=abs(m1_h*math.sin(m1_a)))
-        m2_h = 7.2
+        m1_off_y = 4
+        m1_h = -1*m1_off_y/math.sin(m1_a)
+        m1 = mirror_from_angle(m1_a, r=m1_h, off_y=m1_off_y)
+        m2_h = 8
         m2_a = test*math.pi/180#44.2*math.pi/180
-        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-3)
+        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-2.5)
 
-        stopper = mirror_from_angle(0, 100, off_y=4.5)
+        print 'mirror 2:'
+        print '(x1, y1) (', m2.x1, ',', m2.y1, ')'
+        print '(x2, y2) (', m2.x2, ',', m2.y2, ')'
+        print 'X for h of .25: ', m2.calc_x(.25)
+        print 'Length: ', m2_h
+
+        stopper = mirror_from_angle(0, 100, off_y=6)
 
         #Initial light path
         path1 = [line_from_angle((3*math.pi/2)-PROJ_ANGLE/2, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
@@ -301,3 +311,4 @@ print 'With ', t
 #print results
 
 app.MainLoop()
+
