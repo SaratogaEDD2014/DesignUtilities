@@ -218,9 +218,10 @@ results = {}
 
 #Old test results: best anlges: 313.7 and 44.2
 #Mid test: proj = .6057697; test1=49; test=36
-for test1 in [42.9]:#arange(48, 52, .1):
-    for test in [47.1]:#arange(28, 32, .1):
+for test1 in [54.0]:#arange(54, 56, .1):
+    for test in [43.8]:#arange(42, 44, .1):
         PROJ_ANGLE = .4825976539
+        PROJ_ANGLE_OFFSET = .0312398334
         PROJ_ORIGIN = (4.5-2.125-.22, 4.5)
         pane = MirrorDraw(limits=(14,14))
         pane.SetTitle(str(test1)+'/'+str(test))
@@ -237,12 +238,12 @@ for test1 in [42.9]:#arange(48, 52, .1):
 
         m1_a = test1
         m1_a = (180-m1_a)*math.pi/180 #360-46.3
-        m1_off_y = 4
+        m1_off_y = 4.7
         m1_h = -1*m1_off_y/math.sin(m1_a)
         m1 = mirror_from_angle(m1_a, r=m1_h, off_y=m1_off_y)
-        m2_h = 8
+        m2_h = 7
         m2_a = test*math.pi/180#44.2*math.pi/180
-        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-2.5)
+        m2 = mirror_from_angle(m2_a, r=m2_h, off_x=pane.limits[1]-abs(m2_h*math.cos(m2_a))-2.8)
 
         print 'mirror 2:'
         print '(x1, y1) (', m2.x1, ',', m2.y1, ')'
@@ -253,8 +254,8 @@ for test1 in [42.9]:#arange(48, 52, .1):
         stopper = mirror_from_angle(0, 100, off_y=6)
 
         #Initial light path
-        path1 = [line_from_angle((3*math.pi/2)-PROJ_ANGLE/2, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
-        path2 = [line_from_angle((3*math.pi/2)+PROJ_ANGLE/2, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
+        path1 = [line_from_angle((3*math.pi/2)-PROJ_ANGLE_OFFSET, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
+        path2 = [line_from_angle((3*math.pi/2)-PROJ_ANGLE_OFFSET-PROJ_ANGLE, off_x=PROJ_ORIGIN[0], off_y=PROJ_ORIGIN[1])]
         #After first mirror
         path1.append(m1.reflect(path1[0]))
         path2.append(m1.reflect(path2[0]))
